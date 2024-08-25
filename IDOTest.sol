@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import  {Test, console} from "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "../src/IDO.sol";
 
@@ -65,12 +65,12 @@ contract TestTokenIDOTest is Test {
         ido.startPresale();
         vm.deal(user1, 100 ether);
 
-        // 模拟募集资金达到100 ether
+        // Simulate raising funds to 100 ether
         for (uint256 i = 0; i < 1000; i++) {
             vm.prank(user1);
             ido.presale{value: 0.1 ether}();
         }
-        // 设置时间为募集结束时间
+        // Set time to the end of the fundraising period
         vm.warp(block.timestamp + 12 days);
 
         vm.expectEmit(true, false, false, false);
@@ -81,7 +81,7 @@ contract TestTokenIDOTest is Test {
         vm.prank(user1);
         ido.claimTokens();
 
-        //TODO: 检查用户领取后的TOKEN余额,目前无法检查
+        // TODO: Check the user's token balance after claiming; currently unable to check
         assertEq(ido.funded(user1), 0);
     }
 
@@ -110,7 +110,7 @@ contract TestTokenIDOTest is Test {
         ido.startPresale();
         vm.deal(user1, 100 ether);
 
-        // 模拟募集资金达到100 ether
+        // Simulate raising funds to 100 ether
         for (uint256 i = 0; i < 1000; i++) {
             vm.prank(user1);
             ido.presale{value: 0.1 ether}();
@@ -123,23 +123,23 @@ contract TestTokenIDOTest is Test {
         assertEq(address(owner).balance, 100 ether);
     }
 
-    //项目方这次预售的tokem总量
+    // Total amount of tokens for this presale
     uint256 public totalPresaleAmount;
 
-    //预售价格
+    // Presale price
     uint256 constant PRESALE_PRICE = 0.001 ether;
-    //募集资金的期望值
+    // Expected fundraising target
     uint256 constant RAISE_LIMIT = 100 ether;
-    //募集资金的最大值
+    // Maximum fundraising cap
     uint256 constant RAISE_CAP = 200 ether;
-    //最小购买金额
+    // Minimum purchase amount
     uint256 constant MIN_BUY = 0.01 ether;
-    //最大购买金额
+    // Maximum purchase amount
     uint256 constant MAX_BUY = 0.1 ether;
-    //预售时间
+    // Presale time
     uint256 public startTime;
     uint256 public endTime;
-    //募集的总金额
+    // Total amount raised
     uint256 public totalRaised = 0;
 
     event PresaleStarted();
